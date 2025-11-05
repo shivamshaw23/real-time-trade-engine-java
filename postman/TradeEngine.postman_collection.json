@@ -1,0 +1,234 @@
+{
+  "info": {
+    "name": "Trade Engine API",
+    "description": "Complete API collection for the Real-Time Trade Engine",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Orders",
+      "item": [
+        {
+          "name": "Place Limit Order",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"client_id\": \"client-1\",\n  \"instrument\": \"BTC-USD\",\n  \"side\": \"buy\",\n  \"type\": \"limit\",\n  \"price\": 70000.50,\n  \"quantity\": 0.25,\n  \"idempotency_key\": \"order-123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/orders",
+              "host": ["{{base_url}}"],
+              "path": ["orders"]
+            }
+          }
+        },
+        {
+          "name": "Place Market Order",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"client_id\": \"client-1\",\n  \"instrument\": \"BTC-USD\",\n  \"side\": \"buy\",\n  \"type\": \"market\",\n  \"quantity\": 0.5\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/orders",
+              "host": ["{{base_url}}"],
+              "path": ["orders"]
+            }
+          }
+        },
+        {
+          "name": "Get Order",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/orders/:order_id",
+              "host": ["{{base_url}}"],
+              "path": ["orders", ":order_id"],
+              "variable": [
+                {
+                  "key": "order_id",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Cancel Order",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{base_url}}/orders/:order_id/cancel",
+              "host": ["{{base_url}}"],
+              "path": ["orders", ":order_id", "cancel"],
+              "variable": [
+                {
+                  "key": "order_id",
+                  "value": ""
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Orderbook",
+      "item": [
+        {
+          "name": "Get Orderbook",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/orderbook?instrument=BTC-USD&levels=20",
+              "host": ["{{base_url}}"],
+              "path": ["orderbook"],
+              "query": [
+                {
+                  "key": "instrument",
+                  "value": "BTC-USD"
+                },
+                {
+                  "key": "levels",
+                  "value": "20"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Trades",
+      "item": [
+        {
+          "name": "Get Recent Trades",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/trades?limit=50",
+              "host": ["{{base_url}}"],
+              "path": ["trades"],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "50"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Events (SSE)",
+      "item": [
+        {
+          "name": "Subscribe to Trades",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/event-stream"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/events/trades",
+              "host": ["{{base_url}}"],
+              "path": ["events", "trades"]
+            }
+          }
+        },
+        {
+          "name": "Subscribe to Orderbook",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/event-stream"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/events/orderbook?instrument=BTC-USD",
+              "host": ["{{base_url}}"],
+              "path": ["events", "orderbook"],
+              "query": [
+                {
+                  "key": "instrument",
+                  "value": "BTC-USD"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Subscribe to Orders",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "text/event-stream"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/events/orders",
+              "host": ["{{base_url}}"],
+              "path": ["events", "orders"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Health & Metrics",
+      "item": [
+        {
+          "name": "Health Check",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/healthz",
+              "host": ["{{base_url}}"],
+              "path": ["healthz"]
+            }
+          }
+        },
+        {
+          "name": "Prometheus Metrics",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/actuator/prometheus",
+              "host": ["{{base_url}}"],
+              "path": ["actuator", "prometheus"]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8080"
+    }
+  ]
+}
+
